@@ -1,0 +1,8 @@
+#Note: There must have a space between ":" and value
+
+car_height: 1.5
+waiting_car_longitude: -75.4180322
+waiting_car_latitude: 43.2299043
+static_landing_longitude: -75.4180269
+static_landing_latitude: 43.2296988
+blind_landing_distance: 1

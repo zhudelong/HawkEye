@@ -1,0 +1,3 @@
+repository='external project URL'
+module='/home/ubuntu/catkin_ws/src/tag_detector/apriltags_ros_new/apriltags_swatbotics_EXTERNAL-prefix/src/apriltags_swatbotics_EXTERNAL'
+tag=''

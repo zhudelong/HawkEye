@@ -1,0 +1,78 @@
+#include <ros/ros.h>
+#include <iostream>
+#include "dji_bumper/dji_bumper.h"
+
+extern DJI_event   g_event;   // activated every time callback is called
+extern unsigned char g_warning_flag;  // corresponding bit would be set once any obstacle found in detection region
+
+int main(int argc, char** argv)
+{
+  ros::init(argc, argv, "dji_bumper");
+  djiBumper bumper; // create a instance of class djiBumper
+#ifndef OFFLINE_DEBUG
+
+  if (bumper.init() != 0 ) // initialize bumper
+    {
+      std::cout << "failed to initialize guidance" << std::endl;
+      return 1;
+    }
+
+#endif
+
+  while (ros::ok())
+    {
+#ifndef OFFLINE_DEBUG
+      g_event.wait_event();
+#else
+      static int img_idx = 0;
+      const int img_cnt = 774;
+      int load_flag = bumper.load(1, img_type_grey, img_idx, std::string("/home/") + USER_NAME + "/data_pack/" + char('0' + DATA_PACK_ID_FOR_LOADING) + "/img/"); // switch pack number if necessary
+
+      if ((++img_idx) == img_cnt) img_idx = 0;
+
+      if (load_flag == 0)
+        {
+#endif
+      /* get disparity */
+      bumper.match(1, 64, 7, match_mode_BM_CPU);
+//      bumper.match(3, 64, 5, match_mode_BM_CPU);
+      /* get depth */
+      bumper.triangulate(1);
+//      bumper.triangulate(3);
+      /* segment image */
+      bumper.segment(1);  // draw hist gram
+//      bumper.segment(3);
+      /* detect path*/
+      float safe_dis, off_x, off_y;
+      bumper.detectPath(1,5,safe_dis, off_x, off_y);
+      /* check safety
+      unsigned char safe_vision = bumper.checkSafetyByVision();
+      unsigned char safe_ultrasonic = bumper.checkSafetyByUltrasonic();
+      g_warning_flag = safe_vision | safe_ultrasonic;*/
+      /* publish ROS message
+      bumper.publish();*/
+      /* display warning flag (for debug only)
+      unsigned char temp_flag = g_warning_flag;
+      std::ostringstream tmp_str;
+
+      for (int i = 0; i != 8; i++)
+        {
+          tmp_str << "[" << i << "]-" << char((temp_flag & 0x01) + '0') << "  ";
+          temp_flag >>= 1;
+        }
+
+      std::cout << "warning flag:" << tmp_str.str() << std::endl;*/
+#ifdef OFFLINE_DEBUG
+    }
+
+#endif
+  ros::spinOnce();
+}
+
+/* release data transfer */
+stop_transfer();
+sleep(1);
+std::cout << "release_transfer" << std::endl;
+release_transfer();
+return 0;
+}

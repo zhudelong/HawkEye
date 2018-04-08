@@ -1,0 +1,10 @@
+<launch>        
+  <node pkg="guidance" type="guidanceNode" name="guidanceNode" output="screen">
+  </node>
+
+  <node pkg="dji_auto_search" type="dji_auto_search_node" name="dji_auto_search_node" output="screen">
+    <!-- <param name="camera_info_url" value="file:///$(find video_stream_opencv)/config/camera.yaml" /> -->
+    <rosparam command="load" file="$(find dji_auto_search)/resource/search_area.yaml" />
+  </node>
+
+</launch>

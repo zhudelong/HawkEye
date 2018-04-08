@@ -1,0 +1,32 @@
+start_point: {x: 22.59191634, y: 113.9653581}
+cross_point: {x: 22.59209966, y: 113.9655833}
+left_point:  {x: 22.59209966, y: 113.9653581} 
+right_point: {x: 22.59191634, y: 113.9655833}
+center_bia: {x: 0.00, y: 0.00}
+anchor_center_dis: 8.00
+tar_diff_dis: 5.0
+grid_x_idx: 10
+grid_y_idx: 10
+take_off_time: 4
+go_up_speed: 5
+go_up_time: 5
+fly_to_anchor_time: 6
+fly_to_target_time: 4
+back_time: 3
+back_distance: 2.00
+back_threshold: 1.00
+go_down_time: 4
+go_down_threshold: 0.8
+test_type: 2
+drone_speed: 2.0000
+area_width: 50.00
+safety_range: 3.5
+local_navigation_timeout: 6
+pixel_meter_map_err: 0
+map_height: 25.00
+fly_height: 10.00
+halt_height: 6.00
+srh_height: 2.50
+height_status: 1
+layout_status: 1
+right_fly_time: 13

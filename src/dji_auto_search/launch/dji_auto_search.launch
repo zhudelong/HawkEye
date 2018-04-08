@@ -1,0 +1,34 @@
+<launch>        
+
+   <include file="$(find video_stream_opencv)/launch/camera.launch" >
+	  	<arg name="camera_name" value="camera" />
+	  	<arg name="video_stream_provider" value="0" />
+	  	<arg name="fps" value="30" />
+	  	<arg name="frame_id" value="camera" />
+	  	<arg name="camera_info_url" value="file:///$(find video_stream_opencv)/config/camera.yaml" />
+	  	<arg name="flip_horizontal" value="false" />
+	  	<arg name="flip_vertical" value="false" />
+	  	<arg name="visualize" value="true" />
+   </include>
+
+ <!-- 
+  <node pkg="dji_sdk_read_cam" type="dji_sdk_read_cam" name="dji_sdk_read_cam" output="screen">
+    <param name="gray_or_rgb" type="int" value="0"/>
+    <param name="to_mobile" type="int" value="1"/>
+  </node>
+ -->
+  
+  <node pkg="dji_auto_search" type="dji_auto_search_node" name="dji_auto_search_node" output="screen">
+    <!-- <param name="camera_info_url" value="file:///$(find video_stream_opencv)/config/camera.yaml" /> -->
+    <rosparam command="load" file="$(find dji_auto_search)/resource/search_area.yaml" />
+    <remap from="~image" to="/camera/image_raw"/>
+    <remap from="~camera_info" to="/camera/camera_info"/>
+  </node>
+
+ <!--  <node name="tag_view" pkg="image_view" type="image_view">
+    <remap from="image" to="/apriltags/detections_image" />
+    <param name="autosize" type="bool" value="true"/>
+  </node> -->
+
+
+</launch>

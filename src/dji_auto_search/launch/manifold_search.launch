@@ -1,0 +1,76 @@
+<launch>
+  <param name="/tag_type" value="16h5" />
+ 
+  <!--launch the dji onboard sdk node -->      
+  <node pkg="dji_sdk" type="dji_sdk_node" name="dji_sdk" output="screen">
+	<!-- node parameters -->
+		<param name="serial_name" type="string" value="/dev/ttyTHS1"/>
+		<param name="baud_rate" type="int" value="230400"/>
+		<param name="app_id" type="int" value="1022384"/>
+		<param name="app_version" type="int" value="1"/>
+		<param name="app_bundle_id" type="string" value="Welcome to use dji-sdk"/>
+		<param name="enc_key" type="string" value="e7bad64696529559318bb35d0a8c6050d3b88e791e1808cfe8f7802150ee6f0d"/>
+		<param name="groundstation_enable" type="int" value="1"/>
+  </node>
+  <!--launch the dji guidance node        
+  <node pkg="guidance" type="guidanceNode" name="guidanceNode"/>　-->
+　 <include file="$(find dji_bumper)/launch/dji_bumper.launch"/> 
+
+  <!--launch the x3 camera reading node -->    
+  <node pkg="dji_sdk_read_cam" type="dji_sdk_read_cam" name="dji_sdk_read_cam" output="screen">
+    <param name="gray_or_rgb" type="int" value="1"/>
+    <param name="to_mobile"   type="int" value="1"/>
+  </node>
+  
+  <node pkg="dji_auto_search" type="dji_auto_search_node" name="dji_auto_search_node" output="screen">
+    <rosparam command="load" file="$(find dji_auto_search)/resource/search_area.yaml" />
+    <remap from="~image" to="/dji_sdk/image_raw"/>
+    <remap from="~camera_info" to="/dji_sdk/camera_info"/>
+  </node>
+
+ <!-- <node name="tag_view" pkg="image_view" type="image_view">
+    <remap from="image" to="/apriltags/detections_image" />
+    <param name="autosize" type="bool" value="true"/>
+  </node> -->
+	<node pkg="dji_dispatcher" type="dji_sdk_client" name="dji_sdk_client" output="screen">
+	</node>
+
+  <node pkg="apriltags" type="apriltags" name="apriltags" output="screen">
+    <!-- <param name="camera_info_url" value="file:///$(find video_stream_opencv)/config/camera.yaml" /> -->
+    <param name="~default_tag_size" value="0.06" />
+
+    <param name="~viewer" value="true" />
+    <param name="~publish_detections_image" value="false" />
+
+    <param name="~display_type" value="ARROW" />
+    <param name="~marker_thickness" value="0.02" />
+    <param name="~display_marker_axes" value="true" />
+    <param name="~display_marker_id" value="true" />
+    <param name="~display_marker_overlay" value="false" />
+
+    <rosparam command="delete" param="tag_data" />
+    <rosparam param="tag_data">
+      "2": 
+        size: 0.06
+      "6":
+        size: 0.39
+    </rosparam>
+
+    <remap from="~image" to="/dji_sdk/image_raw"/>
+    <remap from="~camera_info" to="/dji_sdk/camera_info"/>
+    <remap from="~marker_array" to="/apriltags/marker_array"/>
+    <remap from="~detections" to="/apriltags/detections"/>
+  </node>
+
+ <!--  <node name="tag_view" pkg="image_view" type="image_view">
+    <remap from="image" to="/apriltags/detections_image" />
+    <param name="autosize" type="bool" value="true"/>
+  </node> -->
+
+  <node name="controller_node" pkg="apriltags" type="controller_node" output="screen">
+    <rosparam command="load" file="$(find apriltags)/resource/controller.yaml" />
+    <rosparam command="load" file="$(find apriltags)/resource/parameters.yaml" />
+  </node>
+
+
+</launch>

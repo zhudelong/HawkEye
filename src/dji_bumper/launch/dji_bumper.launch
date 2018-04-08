@@ -1,0 +1,38 @@
+<launch>
+  <arg name="debug" default="false" />
+  
+  <group ns="guidance">
+    <param name="match_method" type="string" value="BM"/>
+    <param name="ndisp" type="int" value="64"/>
+    <param name="cam_pair0/enable" type="bool" value="true"/>
+    <param name="cam_pair1/enable" type="bool" value="true"/>
+    <param name="cam_pair2/enable" type="bool" value="true"/>
+    <param name="cam_pair3/enable" type="bool" value="true"/>
+    <param name="cam_pair4/enable" type="bool" value="true"/>
+  </group>
+ 
+  <node pkg="dji_bumper" type="dji_bumper" name="dji_bumper" output="screen">
+  </node>
+
+  <group if="$(arg debug)">
+    <node pkg="image_view" type="image_view" name="front_view">
+      <remap from="image" to="/guidance/disparity_image/1"/>
+    </node>
+    <node pkg="image_view" type="image_view" name="right_view">
+      <remap from="image" to="/guidance/disparity_image/2"/>
+    </node>
+    <node pkg="image_view" type="image_view" name="back_view">
+      <remap from="image" to="/guidance/disparity_image/3"/>
+    </node>
+    <node pkg="image_view" type="image_view" name="left_view">
+      <remap from="image" to="/guidance/disparity_image/4"/>
+    </node>
+    <node pkg="image_view" type="image_view" name="down_view">
+      <remap from="image" to="/guidance/disparity_image/0"/>
+    </node>
+    
+    <node pkg = "rviz" type= "rviz" name="rviz" output="screen" args="-d $(find dji_bumper)/rviz/dji_bumper.rviz">
+    </node>
+  </group>
+
+</launch>

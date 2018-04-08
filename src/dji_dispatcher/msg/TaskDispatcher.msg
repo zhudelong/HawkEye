@@ -1,0 +1,11 @@
+Header header
+bool flag_start_mission
+bool flag_abort_mission
+bool flag_abort_landing
+bool flag_search_task_end
+bool flag_auto_landing_end
+bool flag_detect_all
+bool flag_limitation_ok
+bool flag_go_back
+int32  abort_landing_count
+int32  status_code

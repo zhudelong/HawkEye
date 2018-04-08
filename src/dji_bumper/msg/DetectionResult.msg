@@ -1,0 +1,12 @@
+Header header
+uint8 warning_flag
+geometry_msgs/Point window_pos_front
+geometry_msgs/Point window_pos_right
+geometry_msgs/Point window_pos_rear
+geometry_msgs/Point window_pos_left
+geometry_msgs/Point window_pos_down
+uint8 window_sta_front
+uint8 window_sta_right
+uint8 window_sta_rear
+uint8 window_sta_left
+uint8 window_sta_down

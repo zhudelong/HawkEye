@@ -1,0 +1,42 @@
+１．单独测试福特ＡＰＩ，在车上索要ＩＰ后连接，用车上的起飞按钮单机起飞，降落，放弃等按钮，看看是否好使，此时不用启动飞机。如果不好使，先测试下一项，完事了再argue
+２．目测树木高度，如果高于２０ｍ，map_height改为３０m。确认test_type = 2;
+３．飞机放在跑道地面开机并运行start.sh. 通过显示屏确认“计算出的local坐标系下的anchor间的差值为２０ｍ”。完毕后放在车上，本人不要上车, 在“飞机始发点”等待，招手让司机开车。这时候要测量第一个关键数据－－－－汽车从启动点到始发点的耗时，已经快慢程度。（用手机秒表测可以）
+４．汽车过始发点后，点击起飞按钮，ＡＰＰ开始计时，注意观察飞机飞向第一个点的耗时，这是第二个关键数据，程序里会用两个６秒飞过去，注意看是不是能到达左下中心。
+5.　程序会依次飞过８个点，可以提前仿真一下。然后向回飞到等待点，当手机屏幕上看到2. Tracking msg has published　或ＧＰＳ时，挥手启动汽车，注意观察飞机是否比汽车提前到达等待地点。
+
+
+６．务必保持收ＡＰＰ常亮，且不退出，运行过程中不要点击任何东西
+left_point	cross_point
+start_point	right_point
+
+
+start_point: {x: 22.59191634, y: 113.9653581}　//左下顶点开始
+cross_point: {x: 22.59209966, y: 113.9655833} // 对角顶点 
+left_point:  {x: 22.59209966, y: 113.9653581} // 上边两个点的连线　（对角线的左侧）
+right_point: {x: 22.59191634, y: 113.9655833}
+center_bia: {x: 0.00, y: 0.00}　// map 时搜索区域中心点的偏移
+anchor_center_dis: 10.00 
+tar_diff_dis: 5.0
+grid_x_idx: 10
+grid_y_idx: 10
+take_off_time: 4
+go_up_speed: 5
+go_up_time: 2
+fly_to_anchor_time: 6
+fly_to_target_time: 4
+back_time: 3
+back_distance: 3.00
+back_threshold: 2.5
+go_down_time: 4
+go_down_threshold: 1.5
+test_type: 1
+drone_speed: 2.0000
+area_width: 50.00
+safety_range: 2.50
+local_navigation_timeout: 6
+pixel_meter_map_err: 0
+map_height: 20.00
+fly_height: 10.00
+halt_height: 6.00
+srh_height: 2.500
+
